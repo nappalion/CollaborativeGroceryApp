@@ -1,6 +1,7 @@
-package com.bignerdranch.android.groceryapp
+package com.nipplelion.android.groceryapp
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -8,18 +9,22 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.Toast
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.Preview
+import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.mlkit.vision.barcode.BarcodeScanning
+import com.google.mlkit.vision.common.InputImage
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import java.util.concurrent.atomic.AtomicBoolean
+
+typealias BarcodeListener = (barcode: String) -> Unit
 
 class MainActivity : AppCompatActivity() {
+
+    private var processingBarcode = AtomicBoolean(false) // allows one barcode at a time
 
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var backButton: Button
@@ -64,6 +69,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        processingBarcode.set(false)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         cameraExecutor.shutdown()
@@ -71,8 +81,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-
-
 
         cameraProviderFuture.addListener({
             // Used to bind the lifecycle of cameras to the lifecycle owner
@@ -88,7 +96,11 @@ class MainActivity : AppCompatActivity() {
             val imageAnalyzer = ImageAnalysis.Builder()
                 .build()
                 .also {
-                    // TODO: Do barcode stuff here
+                    it.setAnalyzer(cameraExecutor, BarcodeAnalyzer { barcode ->
+                        if (processingBarcode.compareAndSet(false, true)) {
+                            Log.d("status", "Barcode number: $barcode")
+                        }
+                    })
                 }
 
             // Select back camera as a default
@@ -113,13 +125,33 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "GroceryApp"
-        private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         private const val REQUEST_CODE_PERMISSIONS = 10
-        private val REQUIRED_PERMISSIONS =
-            mutableListOf(
-                Manifest.permission.CAMERA,
-            ).toTypedArray()
+        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }
 
     // TODO: Create class for analyzing barcode
+    class BarcodeAnalyzer(private val barcodeListener: BarcodeListener): ImageAnalysis.Analyzer {
+        private val scanner = BarcodeScanning.getClient()
+
+        @SuppressLint("UnsafeOptInUsageError")
+        override fun analyze(imageProxy: ImageProxy) {
+            val mediaImage = imageProxy.image
+            if (mediaImage != null) {
+                val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
+
+                scanner.process(image)
+                    .addOnSuccessListener { barcodes ->
+                        for (barcode in barcodes) {
+                            barcodeListener(barcode.rawValue ?: "")
+                        }
+                    }
+                    .addOnFailureListener {
+                        Log.e("status", it.toString())
+                    }
+                    .addOnCompleteListener {
+                        imageProxy.close()
+                    }
+            }
+        }
+    }
 }
