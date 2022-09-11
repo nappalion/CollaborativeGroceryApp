@@ -9,22 +9,40 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/green"
         android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="30dp"
+            android:text="Home"/>
 
         <EditText
             android:id="@+id/etSearchBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/white_round_corner_shape"
             android:hint="Search your home"/>
+
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerView"
             android:name="com.nipplelion.android.groceryapp.BarcodeFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:background="@drawable/white_round_corner_shape"
+            android:layout_marginTop="20dp"
+            android:elevation="10dp"
             app:layout_anchor="@+id/fragmentContainerView"
             app:layout_anchorGravity="center" />
+
 
     </LinearLayout>
 
@@ -34,6 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@android:color/white"
+        android:backgroundTint="@color/green"
         app:fabCradleMargin="10dp"
         app:fabCradleRoundedCornerRadius="10dp"
         app:fabCradleVerticalOffset="10dp">
@@ -44,6 +63,8 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="16dp"
             android:background="@drawable/background_transparent"
+            app:itemIconTint="@drawable/bottom_navigation_selector"
+            app:labelVisibilityMode="unlabeled"
             app:menu="@menu/bottom_nav_menu" />
 
     </com.google.android.material.bottomappbar.BottomAppBar>
@@ -53,6 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_camera_fill"
+        android:backgroundTint="@color/green"
         app:layout_anchor="@id/bottomAppBar"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
