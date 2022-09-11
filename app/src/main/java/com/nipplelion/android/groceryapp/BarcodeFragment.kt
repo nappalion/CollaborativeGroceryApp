@@ -19,6 +19,7 @@ import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
@@ -86,7 +87,21 @@ class BarcodeFragment: Fragment(R.layout.fragment_barcode) {
 
                 if (responseBody != null) {
                     var foodLabel = responseBody.hints[0].food.label
-                    Log.d("status", foodLabel)
+                    var foodImage = responseBody.hints[0].food.image
+                    var upc = (responseBody.text)
+                    var foodUPC = upc.substring(4, upc.length)
+
+                    parentFragmentManager.commit {
+                        var formFragment = FormFragment()
+                        var bundle = Bundle()
+                        bundle.putString("foodLabel", foodLabel)
+                        bundle.putString("foodImage", foodImage)
+                        bundle.putString("foodUPC", foodUPC)
+                        formFragment.arguments = bundle
+
+                        replace(R.id.fragmentContainerView, formFragment)
+                        setReorderingAllowed(true)
+                    }
                 }
             }
 
@@ -117,7 +132,6 @@ class BarcodeFragment: Fragment(R.layout.fragment_barcode) {
                 .also {
                     it.setAnalyzer(cameraExecutor, BarcodeAnalyzer { barcodeNum ->
                         //if (processingBarcode.compareAndSet(false, true)) {
-                        //Log.d("status", "Barcode number: $barcodeNum")
                         getFoodData(barcodeNum)
                         //}
                     })
