@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 class HomeFragment: Fragment(R.layout.fragment_home) {
 
     private var layoutManager: RecyclerView.LayoutManager? = null
-    private var adapter: RecyclerView.Adapter<FoodAdapter.ViewHolder>? = null
+    private var adapter: RecyclerView.Adapter<StatusAdapter.ViewHolder>? = null
     private lateinit var rvItems: RecyclerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -23,7 +23,7 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
         rvItems = view.findViewById(R.id.rvItems)
 
         layoutManager = LinearLayoutManager(requireContext())
-        adapter = FoodAdapter()
+        adapter = StatusAdapter()
 
         rvItems.layoutManager = layoutManager
         rvItems.adapter = adapter

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/white_round_corner_shape"
+    android:elevation="10dp"
+    android:layout_margin="10dp"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/tvFoodLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:padding="15dp"
+        tools:text="hello"/>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/apple"
+                android:background="@drawable/green_gray_round_corner_shape"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/banana"
+                android:background="@drawable/green_gray_round_corner_shape" />
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/apple"
+                android:background="@drawable/green_gray_round_corner_shape" />
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/banana"
+                android:background="@drawable/green_gray_round_corner_shape" />
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+</LinearLayout>

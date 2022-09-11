@@ -7,19 +7,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class FoodAdapter: RecyclerView.Adapter<FoodAdapter.ViewHolder>() {
+class StatusAdapter: RecyclerView.Adapter<StatusAdapter.ViewHolder>() {
 
-    private var foodLabels = arrayOf("Apple", "Water")
-    private var foodImages = arrayOf("Yum", "Yum1")
+    private var foodLabels = arrayOf("Have", "Want", "Getting")
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StatusAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_food, parent, false)
+            .inflate(R.layout.item_status, parent, false)
 
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: FoodAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: StatusAdapter.ViewHolder, position: Int) {
         holder.tvFoodLabel.text = foodLabels[position]
     }
 
@@ -29,11 +28,9 @@ class FoodAdapter: RecyclerView.Adapter<FoodAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         var tvFoodLabel: TextView
-        var ivFoodImage: ImageView
 
         init {
             tvFoodLabel = itemView.findViewById(R.id.tvFoodLabel)
-            ivFoodImage = itemView.findViewById(R.id.ivFoodImage)
         }
     }
 }
