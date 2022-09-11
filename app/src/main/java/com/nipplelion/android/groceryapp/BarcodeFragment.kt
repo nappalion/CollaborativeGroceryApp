@@ -37,13 +37,6 @@ class BarcodeFragment: Fragment(R.layout.barcode_fragment) {
     private lateinit var backButton: Button
     private lateinit var viewFinder: PreviewView
 
-    private lateinit var safeContext: Context
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        safeContext = context
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.barcode_fragment, container, false)
     }
@@ -55,7 +48,7 @@ class BarcodeFragment: Fragment(R.layout.barcode_fragment) {
         backButton = view.findViewById(R.id.backButton)
 
         backButton.setOnClickListener {
-            Toast.makeText(safeContext, "hello", Toast.LENGTH_SHORT)
+            Toast.makeText(requireContext(), "hello", Toast.LENGTH_SHORT).show()
         }
 
         if (allPermissionsGranted()) {
@@ -74,12 +67,12 @@ class BarcodeFragment: Fragment(R.layout.barcode_fragment) {
         IntArray) {
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
-                Toast.makeText(safeContext,
+                Toast.makeText(requireContext(),
                     "Permissions already granted by the user.",
                     Toast.LENGTH_SHORT).show()
                 startCamera()
             } else {
-                Toast.makeText(safeContext,
+                Toast.makeText(requireContext(),
                     "Permissions not granted by the user.",
                     Toast.LENGTH_SHORT).show()
             }
@@ -102,7 +95,7 @@ class BarcodeFragment: Fragment(R.layout.barcode_fragment) {
     }
 
     private fun startCamera() {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(safeContext)
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
 
         cameraProviderFuture.addListener({
             // Used to bind the lifecycle of cameras to the lifecycle owner
@@ -137,12 +130,12 @@ class BarcodeFragment: Fragment(R.layout.barcode_fragment) {
             } catch(exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
             }
-        }, ContextCompat.getMainExecutor(safeContext))
+        }, ContextCompat.getMainExecutor(requireContext()))
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(
-            safeContext, it) == PackageManager.PERMISSION_GRANTED
+            requireContext(), it) == PackageManager.PERMISSION_GRANTED
     }
 
     companion object {
