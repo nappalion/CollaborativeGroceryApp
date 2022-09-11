@@ -5,10 +5,60 @@
     android:layout_height="match_parent"
     tools:context=".FormFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter your food data." />
+
+        <ImageView
+            android:id="@+id/ivItemImage"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="200dp"
+            android:layout_height="200dp" />
+
+        <EditText
+            android:id="@+id/etItemName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Item Name" />
+
+        <EditText
+            android:id="@+id/etItemUPC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Item UPC" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnHave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Have"/>
+
+            <Button
+                android:id="@+id/btnRequest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Request"/>
+
+            <Button
+                android:id="@+id/btnGetting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Getting"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </FrameLayout>
