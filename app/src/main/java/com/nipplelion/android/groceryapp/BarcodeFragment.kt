@@ -23,12 +23,18 @@ import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 
 typealias BarcodeListener = (barcode: String) -> Unit
 
+const val BASE_URL = "https://api.edamam.com"
 class BarcodeFragment: Fragment(R.layout.fragment_barcode) {
 
     private var processingBarcode = AtomicBoolean(false) // allows one barcode at a time
@@ -61,36 +67,35 @@ class BarcodeFragment: Fragment(R.layout.fragment_barcode) {
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String>, grantResults:
-        IntArray) {
-        if (requestCode == REQUEST_CODE_PERMISSIONS) {
-            if (allPermissionsGranted()) {
-                Toast.makeText(requireContext(),
-                    "Permissions already granted by the user.",
-                    Toast.LENGTH_SHORT).show()
-                startCamera()
-            } else {
-                Toast.makeText(requireContext(),
-                    "Permissions not granted by the user.",
-                    Toast.LENGTH_SHORT).show()
+
+    private fun getFoodData(barcodeNum: String) {
+        val retrofitBuilder = Retrofit.Builder()
+            .addConverterFactory(MoshiConverterFactory.create())
+            .baseUrl(BASE_URL)
+            .build()
+            .create(EdamamApiService::class.java)
+
+        val retrofitData = retrofitBuilder.getFood(BuildConfig.FOOD_APP_ID,  BuildConfig.FOOD_API_KEY, barcodeNum)
+
+        retrofitData.enqueue(object : Callback<FoodData?> {
+            override fun onResponse(
+                call: Call<FoodData?>,
+                response: Response<FoodData?>
+            ) {
+                val responseBody = response.body()
+
+                if (responseBody != null) {
+                    var foodLabel = responseBody.hints[0].food.label
+                    Log.d("status", foodLabel)
+                }
             }
-        }
-    }
 
-    override fun onPause() {
-        super.onPause()
-        processingBarcode.set(true)
-    }
+            override fun onFailure(call: Call<FoodData?>, t: Throwable) {
+                Log.e("TAG", t.toString())
+            }
+        })
 
-    override fun onResume() {
-        super.onResume()
-        processingBarcode.set(false)
-    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        cameraExecutor.shutdown()
     }
 
     private fun startCamera() {
@@ -110,9 +115,10 @@ class BarcodeFragment: Fragment(R.layout.fragment_barcode) {
             val imageAnalyzer = ImageAnalysis.Builder()
                 .build()
                 .also {
-                    it.setAnalyzer(cameraExecutor, BarcodeAnalyzer { barcode ->
+                    it.setAnalyzer(cameraExecutor, BarcodeAnalyzer { barcodeNum ->
                         //if (processingBarcode.compareAndSet(false, true)) {
-                            Log.d("status", "Barcode number: $barcode")
+                        //Log.d("status", "Barcode number: $barcodeNum")
+                        getFoodData(barcodeNum)
                         //}
                     })
                 }
@@ -171,5 +177,37 @@ class BarcodeFragment: Fragment(R.layout.fragment_barcode) {
                     }
             }
         }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<String>, grantResults:
+        IntArray) {
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (allPermissionsGranted()) {
+                Toast.makeText(requireContext(),
+                    "Permissions already granted by the user.",
+                    Toast.LENGTH_SHORT).show()
+                startCamera()
+            } else {
+                Toast.makeText(requireContext(),
+                    "Permissions not granted by the user.",
+                    Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        processingBarcode.set(true)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        processingBarcode.set(false)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cameraExecutor.shutdown()
     }
 }

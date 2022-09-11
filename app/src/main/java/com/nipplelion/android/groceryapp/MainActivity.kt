@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         cameraButton.setOnClickListener {
             openCameraFragment(supportFragmentManager)
         }
+
+
     }
 }
 
