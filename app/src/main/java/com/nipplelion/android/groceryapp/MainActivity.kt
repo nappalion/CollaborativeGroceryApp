@@ -1,45 +1,39 @@
 package com.nipplelion.android.groceryapp
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.pm.PackageManager
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.Window
+import android.view.WindowManager
 import android.widget.Button
-import android.widget.Toast
-import androidx.camera.core.*
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.PreviewView
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
-import com.google.mlkit.vision.barcode.BarcodeScanning
-import com.google.mlkit.vision.common.InputImage
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
-import java.util.concurrent.atomic.AtomicBoolean
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 
 class MainActivity : AppCompatActivity() {
 
-    override fun getBaseContext(): Context {
-        return super.getBaseContext()
-    }
+    private lateinit var cameraButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        supportActionBar?.hide()
 
-        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
+        cameraButton = findViewById(R.id.cameraButton)
 
-        if (currentFragment == null) {
-            val fragment = BarcodeFragment()
-            supportFragmentManager
-                .beginTransaction()
-                .add(R.id.fragment_container_view, fragment)
-                .commit()
+        openCameraFragment(supportFragmentManager)
+
+        cameraButton.setOnClickListener {
+            openCameraFragment(supportFragmentManager)
         }
+    }
+}
+
+fun openCameraFragment(supportFragmentManager: FragmentManager) {
+    supportFragmentManager.commit {
+        val barcodeFragment = BarcodeFragment()
+        replace(R.id.fragmentContainerView, barcodeFragment)
+        setReorderingAllowed(true)
+        addToBackStack("camera")
     }
 }

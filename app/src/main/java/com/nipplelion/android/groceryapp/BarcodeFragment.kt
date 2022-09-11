@@ -2,8 +2,6 @@ package com.nipplelion.android.groceryapp
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -29,7 +27,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 typealias BarcodeListener = (barcode: String) -> Unit
 
-class BarcodeFragment: Fragment(R.layout.barcode_fragment) {
+class BarcodeFragment: Fragment(R.layout.fragment_barcode) {
 
     private var processingBarcode = AtomicBoolean(false) // allows one barcode at a time
 
@@ -38,7 +36,7 @@ class BarcodeFragment: Fragment(R.layout.barcode_fragment) {
     private lateinit var viewFinder: PreviewView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.barcode_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_barcode, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,7 +46,7 @@ class BarcodeFragment: Fragment(R.layout.barcode_fragment) {
         backButton = view.findViewById(R.id.backButton)
 
         backButton.setOnClickListener {
-            Toast.makeText(requireContext(), "hello", Toast.LENGTH_SHORT).show()
+            requireActivity().supportFragmentManager.popBackStack()
         }
 
         if (allPermissionsGranted()) {
@@ -61,7 +59,6 @@ class BarcodeFragment: Fragment(R.layout.barcode_fragment) {
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
 
-    // TODO: Call this when barcode button is pressed
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>, grantResults:
         IntArray) {
@@ -144,7 +141,6 @@ class BarcodeFragment: Fragment(R.layout.barcode_fragment) {
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }
 
-    // TODO: Create class for analyzing barcode
     class BarcodeAnalyzer(private val barcodeListener: BarcodeListener): ImageAnalysis.Analyzer {
         private val scanner = BarcodeScanning.getClient()
 
