@@ -18,6 +18,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fabCamera: FloatingActionButton
     private lateinit var bottomNavigationView: BottomNavigationView
 
+    private var tempData: List<String> = listOf("")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

@@ -5,10 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment">
 
-    <EditText
-        android:id="@+id/etSearchBar"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvItems"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Search your home"/>
+        android:layout_height="match_parent" />
 
 </FrameLayout>
