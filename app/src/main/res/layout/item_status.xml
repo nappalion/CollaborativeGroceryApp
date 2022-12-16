@@ -16,45 +16,9 @@
         android:padding="15dp"
         tools:text="hello"/>
 
-    <HorizontalScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvItems"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
-                android:src="@drawable/apple"
-                android:background="@drawable/green_gray_round_corner_shape"/>
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
-                android:src="@drawable/banana"
-                android:background="@drawable/green_gray_round_corner_shape" />
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
-                android:src="@drawable/apple"
-                android:background="@drawable/green_gray_round_corner_shape" />
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
-                android:src="@drawable/banana"
-                android:background="@drawable/green_gray_round_corner_shape" />
-
-        </LinearLayout>
-
-    </HorizontalScrollView>
-
+        android:layout_height="match_parent"
+    />
 </LinearLayout>

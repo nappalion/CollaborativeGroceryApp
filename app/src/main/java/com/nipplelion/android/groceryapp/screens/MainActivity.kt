@@ -1,17 +1,16 @@
-package com.nipplelion.android.groceryapp
+package com.nipplelion.android.groceryapp.screens
 
-import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Window
-import android.view.WindowManager
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
+import com.nipplelion.android.groceryapp.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,6 +39,12 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
                 R.id.home -> setCurrentFragment(homeFragment)
+                R.id.groups -> {
+                    FirebaseAuth.getInstance().signOut()
+                    var intent: Intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
             }
             true
         }

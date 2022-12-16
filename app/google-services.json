@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "399188854051",
+    "project_id": "grocerease-740e4",
+    "storage_bucket": "grocerease-740e4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:399188854051:android:8132ccb6d5f5d35b553896",
+        "android_client_info": {
+          "package_name": "com.nipplelion.android.groceryapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "399188854051-q0k5gct4jk42601rt7suhg0iuaks9c1f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9Qzsvw4c5_FhmQ6CR8ne9UJm9YmXEKXY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "399188854051-q0k5gct4jk42601rt7suhg0iuaks9c1f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

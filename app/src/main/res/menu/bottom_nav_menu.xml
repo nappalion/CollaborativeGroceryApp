@@ -10,7 +10,7 @@
         android:title=""/>
 
     <item
-        android:id="@+id/settings"
+        android:id="@+id/groups"
         android:title="Groups"
         android:icon="@drawable/ic_team_fill"/>
 

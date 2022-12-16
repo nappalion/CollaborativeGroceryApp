@@ -1,4 +1,4 @@
-package com.nipplelion.android.groceryapp
+package com.nipplelion.android.groceryapp.models
 
 data class Nutrients(
     val CHOCDF: Int,

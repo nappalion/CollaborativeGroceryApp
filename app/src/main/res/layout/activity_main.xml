@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".screens.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerView"
-            android:name="com.nipplelion.android.groceryapp.BarcodeFragment"
+            android:name="com.nipplelion.android.groceryapp.screens.BarcodeFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/white_round_corner_shape"

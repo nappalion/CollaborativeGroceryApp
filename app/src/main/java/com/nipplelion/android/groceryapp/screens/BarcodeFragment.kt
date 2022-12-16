@@ -1,9 +1,10 @@
-package com.nipplelion.android.groceryapp
+package com.nipplelion.android.groceryapp.screens
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.text.TextUtils.replace
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
@@ -25,6 +27,10 @@ import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
+import com.nipplelion.android.groceryapp.BuildConfig
+import com.nipplelion.android.groceryapp.R
+import com.nipplelion.android.groceryapp.models.EdamamApiService
+import com.nipplelion.android.groceryapp.models.FoodData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -65,7 +71,6 @@ class BarcodeFragment: Fragment(R.layout.fragment_barcode) {
             ActivityCompat.requestPermissions(requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
 
-
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
 
@@ -89,6 +94,7 @@ class BarcodeFragment: Fragment(R.layout.fragment_barcode) {
                 if (responseBody != null) {
                     var foodLabel = responseBody.hints[0].food.label
                     var foodImage = responseBody.hints[0].food.image
+                    var foodId = responseBody.hints[0].food.foodId
                     var upc = (responseBody.text)
                     var foodUPC = upc.substring(4, upc.length)
 
@@ -98,6 +104,7 @@ class BarcodeFragment: Fragment(R.layout.fragment_barcode) {
                         bundle.putString("foodLabel", foodLabel)
                         bundle.putString("foodImage", foodImage)
                         bundle.putString("foodUPC", foodUPC)
+                        bundle.putString("foodId", foodId)
                         formFragment.arguments = bundle
 
                         replace(R.id.fragmentContainerView, formFragment)

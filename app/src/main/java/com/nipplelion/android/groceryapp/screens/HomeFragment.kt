@@ -1,4 +1,4 @@
-package com.nipplelion.android.groceryapp
+package com.nipplelion.android.groceryapp.screens
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.nipplelion.android.groceryapp.R
+import com.nipplelion.android.groceryapp.StatusAdapter
 
 class HomeFragment: Fragment(R.layout.fragment_home) {
 
