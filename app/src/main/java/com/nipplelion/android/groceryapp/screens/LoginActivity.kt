@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.nipplelion.android.groceryapp.R
 
@@ -23,6 +24,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var btnSignUp: Button
 
     private lateinit var auth: FirebaseAuth
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,32 +61,10 @@ class LoginActivity : AppCompatActivity() {
         }
 
         btnSignUp.setOnClickListener {
-//            var intent: Intent = Intent(this, SignUpActivity::class.java)
-//            startActivity(intent)
-            if (!etEmail.text.toString().isNullOrEmpty() && !etPassword.text.toString().isNullOrEmpty()) {
-                auth.createUserWithEmailAndPassword(
-                    etEmail.text.toString(),
-                    etPassword.text.toString()
-                )
-                    .addOnCompleteListener(this) { task ->
-                        if (task.isSuccessful) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success")
-                            val user = auth.currentUser
-                            updateUserUI(user)
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                            Toast.makeText(
-                                baseContext, "Authentication failed.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
-            } else {
-                Toast.makeText(baseContext, "Invalid username or email.",
-                    Toast.LENGTH_SHORT).show()
-            }
+            var intent = Intent(this, SignUpActivity::class.java)
+            intent.putExtra("email", etEmail.text.toString())
+            intent.putExtra("password", etPassword.text.toString())
+            startActivity(intent)
         }
     }
 

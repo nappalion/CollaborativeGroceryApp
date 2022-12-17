@@ -6,4 +6,71 @@
     android:layout_height="match_parent"
     tools:context=".screens.SignUpActivity">
 
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:background="@drawable/textbox_black_border"
+        android:hint="Email"
+        android:lines="1"
+        android:padding="15sp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/green_gray"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="63dp" />
+
+    <EditText
+        android:id="@+id/etUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:background="@drawable/textbox_black_border"
+        android:hint="Username"
+        android:lines="1"
+        android:padding="15sp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/green_gray"
+        app:layout_constraintTop_toBottomOf="@+id/etEmail"
+        tools:layout_editor_absoluteX="63dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/password_text_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:layout_below="@id/etEmail"
+        app:boxStrokeWidth="0sp"
+        app:boxStrokeWidthFocused="0sp"
+        app:hintEnabled="false"
+        app:layout_constraintTop_toBottomOf="@+id/etUsername"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/white">
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/textbox_black_border"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:lines="1"
+            android:padding="15sp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/green_gray" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btnSignUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/dark_green"
+        android:layout_marginTop="40dp"
+        android:padding="12sp"
+        android:text="Sign Up"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/password_text_input_layout" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
