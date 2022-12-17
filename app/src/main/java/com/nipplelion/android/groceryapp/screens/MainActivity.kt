@@ -10,14 +10,17 @@ import androidx.fragment.app.replace
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.nipplelion.android.groceryapp.R
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var fabCamera: FloatingActionButton
     private lateinit var bottomNavigationView: BottomNavigationView
-
-    private var tempData: List<String> = listOf("")
+    private val auth = Firebase.auth
+    private val currentUser = auth.currentUser
+    private val userId = currentUser!!.uid
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +41,12 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
-                R.id.home -> setCurrentFragment(homeFragment)
+                R.id.home -> {
+                    var bundle = Bundle()
+                    bundle.putString("uid", userId)
+                    homeFragment.arguments = bundle
+                    setCurrentFragment(homeFragment)
+                }
                 R.id.groups -> {
                     FirebaseAuth.getInstance().signOut()
                     var intent: Intent = Intent(this, LoginActivity::class.java)

@@ -5,7 +5,6 @@ data class FoodItem(
     val date: Long,
     val upc: String,
     val category: String,
-    val foodId: String,
     val image: String,
     val label: String,
 )

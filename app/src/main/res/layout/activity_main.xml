@@ -21,15 +21,21 @@
             android:textSize="30dp"
             android:text="Home"/>
 
-        <EditText
-            android:id="@+id/etSearchBar"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvUsers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/white_round_corner_shape"
-            android:hint="Search your home"/>
+            />
+
+<!--        <EditText-->
+<!--            android:id="@+id/etSearchBar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_marginLeft="5dp"-->
+<!--            android:layout_marginRight="5dp"-->
+<!--            android:background="@drawable/white_round_corner_shape"-->
+<!--            android:hint="Search your home"/>-->
 
 
         <androidx.fragment.app.FragmentContainerView

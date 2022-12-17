@@ -1,5 +1,6 @@
 package com.nipplelion.android.groceryapp.screens
 
+import android.content.Intent
 import android.icu.lang.UCharacter.GraphemeClusterBreak.L
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.commit
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
@@ -98,21 +100,32 @@ class FormFragment: Fragment(R.layout.fragment_form) {
 
         btnSubmit.setOnClickListener {
             if (!etItemName.text.isNullOrEmpty() && !etItemUPC.text.isNullOrEmpty() && !status.isNullOrEmpty()) {
-                var foodKey = homesRef.push().key
+                
 
                 var foodItem = FoodItem(
                     userId = currentUser?.uid,
                     date = System.currentTimeMillis(),
                     upc = foodUPC,
                     category = status,
-                    foodId = foodId,
                     image = foodImage,
                     label = foodLabel
                 )
 
-                if (foodKey != null) {
-                    homesRef.child(foodKey).setValue(foodItem)
-                    usersRef.child(status).child(foodKey).setValue(foodItem)
+                if (foodId != null) {
+                    homesRef.child(foodId).setValue(foodItem)
+                    usersRef.child(status).child(foodId).setValue(foodItem)
+                    Toast.makeText(requireContext(), "Item created successfully!",
+                        Toast.LENGTH_SHORT).show()
+
+                    parentFragmentManager.commit {
+                        var homeFragment = HomeFragment()
+
+                        replace(R.id.fragmentContainerView, homeFragment)
+                        setReorderingAllowed(true)
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Unable to add item at this time.",
+                        Toast.LENGTH_SHORT).show()
                 }
             }
         }

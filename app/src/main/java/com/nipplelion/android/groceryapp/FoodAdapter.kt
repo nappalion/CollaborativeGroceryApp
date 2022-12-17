@@ -1,33 +1,46 @@
+
 package com.nipplelion.android.groceryapp
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.nipplelion.android.groceryapp.models.FoodItem
+import com.squareup.picasso.Picasso
 
-class FoodAdapter: RecyclerView.Adapter<FoodAdapter.ViewHolder>() {
+private const val TAG: String = "FoodAdapter"
 
-    private var foodLabels = arrayOf("Have", "Want", "Getting")
+open class FoodAdapter(var foodData: List<FoodItem>) :
+    RecyclerView.Adapter<FoodAdapter.DataViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodAdapter.ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_status, parent, false)
+    private var foodList: List<FoodItem> = ArrayList()
 
-        return ViewHolder(view)
+    init {
+        this.foodList = foodData
     }
 
-    override fun onBindViewHolder(holder: FoodAdapter.ViewHolder, position: Int) {
-        holder.tvFoodLabel.text = foodLabels[position]
+    inner class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var ivFood: ImageView = itemView.findViewById(R.id.ivFood)
+
+
+        fun bind(food: FoodItem) {
+            Log.i(TAG, food.label)
+            Picasso.get().load(food.image).into(ivFood)
+        }
     }
 
-    override fun getItemCount(): Int {
-        return foodLabels.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = DataViewHolder(
+        LayoutInflater.from(parent.context).inflate(
+            R.layout.item_food, parent,
+            false
+        )
+    )
+
+    override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
+        holder.bind(foodList[position])
     }
 
-    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        var tvFoodLabel: TextView = itemView.findViewById(R.id.tvFoodLabel)
-
-    }
+    override fun getItemCount(): Int = foodList.size
 }
